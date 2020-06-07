@@ -97,6 +97,7 @@ describe('nahan-path', () => {
         it('Error type of "pattern"', () => {
             const Path_123 = Path.bind(null, 123);
             expect(Path_123).to.throw(TypeError);
+            expect(Path_123).to.throw('Type of "pattern" should be "string", "String" or "RegExp"');
         });
     });
 });
