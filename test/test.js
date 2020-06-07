@@ -42,7 +42,7 @@ describe('nahan-path', () => {
                 Path(/\/test\/(?<s1>[a-zA-Z]+)\/(?<s2>[a-zA-Z]+)/),
                 async (ctx, _, groups) => ctx.res.write('Path (RegExp): /test/' + groups.s1 + '/' + groups.s2)
             ),
-            async ctx => ctx.res.write('ctx.req.url: ' + ctx.req.url)
+            async ctx => ctx.res.write('Other path: ' + ctx.path)
         );
 
     const server = http.createServer((req, res) => app({ req, res }));
@@ -85,6 +85,12 @@ describe('nahan-path', () => {
     describe('Path (RegExp): ' + /\/test\/(?<s1>[a-zA-Z]+)\/(?<s2>[a-zA-Z]+)/.source, () => {
         it('GET /test/a/z', done => { agent.get('/test/a/z').expect('Path (RegExp): /test/a/z', done); });
         it('GET //test//abc//xyz//', done => { agent.get('//test//abc//xyz//').expect('Path (RegExp): /test/abc/xyz', done) });
+    });
+
+    describe('Other path', () => {
+        it('GET /other', done => { agent.get('/other').expect('Other path: /other', done); });
+        it('GET /other?123', done => { agent.get('/other?123').expect('Other path: /other', done); });
+        it('GET /other?123#456', done => { agent.get('/other?123#456').expect('Other path: /other', done); });
     });
 
     describe('Error handler', () => {
