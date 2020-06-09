@@ -25,6 +25,14 @@ describe('Path', () => {
             Branch(
                 Path("/baz"),
                 async ctx => ctx.res.write('Path("/baz")')
+            ),
+            Branch(
+                Path("/m", 'm'),
+                async ctx => ctx.res.write('Path("/m")')
+            ),
+            Branch(
+                Path("/e", 'e'),
+                async ctx => ctx.res.write('Path("/e")')
             )
         );
 
@@ -35,6 +43,8 @@ describe('Path', () => {
     it('GET /foo', done => { agent.get('/foo').expect('Path("/foo")', done) });
     it('GET /bar', done => { agent.get('/bar').expect('Path("/bar")', done) });
     it('GET /baz', done => { agent.get('/baz').expect('Path("/baz")', done) });
+    it('GET /m', done => { agent.get('/m').expect('Path("/m")', done) });
+    it('GET /e', done => { agent.get('/e').expect('Path("/e")', done) });
 
     it('Error type of "pattern"', () => {
         const Path_error = Path.bind(null, '/', 'error');
