@@ -24,34 +24,34 @@ const app =
             ctx.res.end();
         },
         Branch(
-            Path('/'),
-            async ctx => ctx.res.write('Path (string): /')
+            Path("/foo", 'match'), // match full ctx.path, and remain ctx.path unchanged
+            async ctx => ctx.res.write(ctx.path)
+            // before ==> after
+            // /foo   ==> /foo
         ),
         Branch(
-            Path('/test'),
-            async ctx => ctx.res.write('Path (string): /test')
+            Path("/bar", 'eater'), // match forward part of ctx.path, and remove the matched part
+            async ctx => ctx.res.write(ctx.path)
+            // before   ==> after
+            // /bar     ==> /
+            // /bar/123 ==> /123
         ),
         Branch(
-            Path(new String('/test/String')),
-            async ctx => ctx.res.write('Path (string): /test/String')
+            Path("/baz/123"), // Default mode is "eater"
+            async ctx => ctx.res.write(ctx.path)
         ),
         Branch(
-            Path(/\/test\/(\d+)/),
-            async (ctx, _, matches) => ctx.res.write('Path (RegExp): /test/' + matches[1])
+            // before: ctx.path = '/img123/abc'
+            Path(/\/img(\d+)/, 'match'),
+            // after: ctx.path = '/img123/abc'
+            async (ctx, _, matches) => console.log(matches[0]) // '123'
         ),
         Branch(
-            Path(/\/test\/(\d+)\/(\d+)/),
-            async (ctx, _, matches) => ctx.res.write('Path (RegExp): /test/' + matches[1] + '/' + matches[2])
+            // before: ctx.path = '/art123/abc'
+            Path(/\/art(?<num>\d+)/, 'eater'),
+            // after: ctx.path = '/abc'
+            async (ctx, _, groups) => console.log(groups.num) // '123'
         ),
-        Branch(
-            Path(/\/test\/(?<s1>[a-zA-Z]+)/),
-            async (ctx, _, groups) => ctx.res.write('Path (RegExp): /test/' + groups.s1)
-        ),
-        Branch(
-            Path(/\/test\/(?<s1>[a-zA-Z]+)\/(?<s2>[a-zA-Z]+)/),
-            async (ctx, _, groups) => ctx.res.write('Path (RegExp): /test/' + groups.s1 + '/' + groups.s2)
-        ),
-        async ctx => ctx.res.write('ctx.req.url: ' + ctx.req.url)
     );
 
 http.createServer((req, res) => app({ req, res })).listen(3000);
