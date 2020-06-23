@@ -10,6 +10,12 @@ Path middleware for nahan
 [coveralls-image]: https://coveralls.io/repos/github/LabMemNo003/nahan-path/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/LabMemNo003/nahan-path?branch=master
 
+# Note
+
+- Path middleware will match the pattern with ctx.path attribute. 
+- If ctx.path is undefined, set ctx.path to ctx.req.url.split('?')[0].
+- Path middleware doesn't normalize the requested url, and leaves this task to users.
+
 # Example
 
 ``` javascript
