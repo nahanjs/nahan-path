@@ -15,11 +15,11 @@ describe('Path', () => {
                 ctx.res.end();
             },
             Branch(
-                Path("/foo", 'match'),
+                Path("/foo", 'full'),
                 async ctx => ctx.res.write('Path("/foo")')
             ),
             Branch(
-                Path("/bar", 'eater'),
+                Path("/bar", 'chop'),
                 async ctx => ctx.res.write('Path("/bar")')
             ),
             Branch(
@@ -27,11 +27,11 @@ describe('Path', () => {
                 async ctx => ctx.res.write('Path("/baz")')
             ),
             Branch(
-                Path("/m", 'm'),
+                Path("/m", 'f'),
                 async ctx => ctx.res.write('Path("/m")')
             ),
             Branch(
-                Path("/e", 'e'),
+                Path("/e", 'c'),
                 async ctx => ctx.res.write('Path("/e")')
             )
         );
