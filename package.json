@@ -1,6 +1,6 @@
 {
   "name": "nahan-path",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Path middleware for nahan",
   "main": "index.js",
   "scripts": {
