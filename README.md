@@ -30,31 +30,31 @@ const app =
             ctx.res.end();
         },
         Branch(
-            Path("/foo", 'match'), // match full ctx.path, and remain ctx.path unchanged
+            Path("/foo", 'full'), // match full ctx.path, and remain ctx.path unchanged
             async ctx => ctx.res.write(ctx.path)
             // before ==> after
             // /foo   ==> /foo
         ),
         Branch(
-            Path("/bar", 'eater'), // match forward part of ctx.path, and remove the matched part
+            Path("/bar", 'chop'), // match forward part of ctx.path, and remove the matched part
             async ctx => ctx.res.write(ctx.path)
             // before   ==> after
             // /bar     ==> /
             // /bar/123 ==> /123
         ),
         Branch(
-            Path("/baz/123"), // Default mode is "eater"
+            Path("/baz/123"), // Default mode is "chop"
             async ctx => ctx.res.write(ctx.path)
         ),
         Branch(
             // before: ctx.path = '/img123/abc'
-            Path(/\/img(\d+)/, 'match'),
+            Path(/\/img(\d+)/, 'full'),
             // after: ctx.path = '/img123/abc'
             async (ctx, _, matches) => console.log(matches[0]) // '123'
         ),
         Branch(
             // before: ctx.path = '/art123/abc'
-            Path(/\/art(?<num>\d+)/, 'eater'),
+            Path(/\/art(?<num>\d+)/, 'chop'),
             // after: ctx.path = '/abc'
             async (ctx, _, groups) => console.log(groups.num) // '123'
         ),
