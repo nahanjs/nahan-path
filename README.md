@@ -50,7 +50,7 @@ const app =
             // before: ctx.path = '/img123/abc'
             Path(/\/img(\d+)/, 'full'),
             // after: ctx.path = '/img123/abc'
-            async (ctx, _, matches) => console.log(matches[0]) // '123'
+            async (ctx, _, matches) => console.log(matches[1]) // '123'
         ),
         Branch(
             // before: ctx.path = '/art123/abc'
