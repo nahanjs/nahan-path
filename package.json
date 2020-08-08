@@ -1,6 +1,6 @@
 {
   "name": "nahan-path",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Path middleware for nahan",
   "main": "index.js",
   "scripts": {
@@ -12,8 +12,12 @@
     "chai": "^4.2.0",
     "coveralls": "^3.1.0",
     "mocha": "^7.2.0",
-    "nahan-onion": "0.0.4",
+    "nahan-context": "0.0.1",
+    "nahan-onion": "^0.1.1",
     "nyc": "^15.1.0",
     "supertest": "^4.0.2"
+  },
+  "dependencies": {
+    "path-to-regexp": "^6.1.0"
   }
 }
